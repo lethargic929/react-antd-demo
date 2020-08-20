@@ -13,10 +13,6 @@ function App() {
          <Route path="/citylist" component={CityList} />
          <Route path="/map" component={Map} />
          <Route path="/search" component={Search} />
-
-        {/*<Route path="/news" component={News} />
-        <Route path="/profile" component={Profile} /> */}
-         
       </div>
     </Router>
   );

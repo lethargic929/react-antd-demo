@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { SearchBar } from "antd-mobile";
+import { Flex } from 'antd-mobile';
 import "./index.scss";
-import axios from "axios";
+import {getCurCity} from '../../utils/index'
 export default class SearchHead extends Component {
   constructor(props) {
     super(props);
@@ -11,39 +11,40 @@ export default class SearchHead extends Component {
   }
   componentDidMount() {
     // 获取当前城市
-    const curCity = new window.BMap.LocalCity();
-    // console.log(curCity, 123);
-    curCity.get(async (res) => {
-      const data = await axios.get(
-        `http://localhost:8080/area/info?name=${res.name}`
-      );
-      // console.log(data, 9898);
+    // const curCity = new window.BMap.LocalCity();
+    // // console.log(curCity, 123);
+    // curCity.get(async (res) => {
+    //   const data = await axios.get(
+    //     `http://localhost:8080/area/info?name=${res.name}`
+    //   );
+    //   // console.log(data, 9898);
+    //   this.setState({
+    //     curCityName: data.data.body.label,
+    //   });
+    // });
+    getCurCity().then(res=>{
       this.setState({
-        curCityName: data.data.body.label,
-      });
-    });
+            curCityName: res.label,
+          });
+    })
   }
 
   render() {
     return (
-      <div className="search">
-        <div className="single-menu-active">
-          <div
-            onClick={() => this.props.history.push("/citylist")}
-            className="single-top-nav-bar"
-          >
-            <span>{this.state.curCityName}</span>
-            <i slot="icon" className="iconfont icon-arrow back"></i>
-          </div>
+      <div >
+      <Flex className='search-box'>
+      <Flex className="search">
+        <div className="location" onClick={() => this.props.history.push('/citylist')}>
+        <span>上海</span>
+        <i className="iconfont icon-arrow"></i>
         </div>
-        <SearchBar
-          placeholder="请输入小区或地址"
-          onFocus={() => this.props.history.push("/search")}
-        />
-        <i
-          className="iconfont icon-map"
-          onClick={() => this.props.history.push("/map")}
-        ></i>
+        <div className="form" onClick={() => this.props.history.push('/search')}>
+        <i className="iconfont icon-seach" />
+          <span className="text">请输入小区或地址</span>
+        </div>
+      </Flex>
+      <i className="iconfont icon-map" onClick={() => this.props.history.push('/map')}></i>
+      </Flex>
       </div>
     );
   }

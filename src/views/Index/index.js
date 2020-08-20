@@ -7,6 +7,8 @@ import Nav2 from "../../assets/images/nav-2.png";
 import Nav3 from "../../assets/images/nav-3.png";
 import Nav4 from "../../assets/images/nav-4.png";
 import axios from "axios";
+import { Flex,Grid } from 'antd-mobile';
+
 
 function GridExample (props){
   const  data =  [
@@ -37,21 +39,20 @@ function GridExample (props){
       ]
     
      const PlaceHolder = () => {
-    return data.map((item) => (
-      <div
-        className="nav"
-        onClick={() => props.history.push(item.path)}
-        key={item.id}
-      >
-        <div className="imgs">
-          <img alt="" src={item.img}></img>
-          <span>{item.title}</span>
-        </div>
+    return (
+      <div className='nav'>
+        <Flex>
+        {data.map(item=>(
+          <Flex.Item key={item.id} onClick={()=>this.props.history.push('/home/list')}>
+          <img alt='' src={item.img}></img>
+        <span>{item.title}</span>
+        </Flex.Item>
+        ))}
+        </Flex>
       </div>
-    ));
+    )
   }
 
-  
   return (
     <div className="nav">
       <PlaceHolder />
@@ -81,23 +82,18 @@ class Floors extends Component {
           <h3>租房小组</h3>
           <span>更多</span>
         </div>
-        <div className="floors-content">
-         {this.state.floors.length?this.state.floors.map(item=>(
-            <div className="floor-item" key={item.id}>
-            <div className="floor-left">
-              <strong>{item.title}</strong>
-              <span>{item.desc}</span>
-            </div>
-            <div className="floor-img">
-              <img
-                alt=""
-                src={`http://localhost:8080${item.imgSrc}`}
-              ></img>
-            </div>
+       
+         <Grid columnNum={2} data={this.state.floors} hasLine={false} square={false}
+         renderItem={item => (<Flex className="group-item" justify="around">
+          <div className='desc'>
+            <div>{item.title}</div>
+            <div className='info'>{item.desc}</div>
           </div>
-         )):null}
+          <img src={`http://localhost:8080${item.imgSrc}`}  alt="" />
+        </Flex>)}
+         />
         </div>
-      </div>
+     
     );
   }
 }
